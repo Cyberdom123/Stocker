@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/root/ProgramingStuff/Stocker/source/main.cpp
+iostream
+-
+testLib.h
+/root/ProgramingStuff/Stocker/source/testLib.h
+
+/root/ProgramingStuff/Stocker/source/modules/testLib.h
+iostream
+-
+

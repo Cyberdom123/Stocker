@@ -1,0 +1,3 @@
+/root/ProgramingStuff/Stocker/build/CMakeFiles/rebuild_cache.dir
+/root/ProgramingStuff/Stocker/build/CMakeFiles/Stocker.dir
+/root/ProgramingStuff/Stocker/build/CMakeFiles/edit_cache.dir
