@@ -1,1 +1,1 @@
-/usr/bin/c++    -rdynamic CMakeFiles/Stocker.dir/modules/testLib.cpp.o CMakeFiles/Stocker.dir/main.cpp.o  -o Stocker 
+/usr/bin/g++ -g -rdynamic CMakeFiles/Stocker.dir/modules/testLib.cpp.o CMakeFiles/Stocker.dir/main.cpp.o -o Stocker  -lgtkmm-4.0 -lpangomm-2.48 -lgiomm-2.68 -lglibmm-2.68 -lcairomm-1.16 -lsigc-3.0 -lgtk-4 -lpangocairo-1.0 -lpango-1.0 -lharfbuzz -lgdk_pixbuf-2.0 -lcairo-gobject -lcairo -lgraphene-1.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lsqlite3 
