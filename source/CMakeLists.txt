@@ -14,4 +14,18 @@ include_directories(modules)
 #search forr all .cpp .h files in modules dir
 file(GLOB SOURCES "./modules/*.cpp" "./modules/*.h")
 
+#configure gtkmm package
+find_package(PkgConfig)
+pkg_check_modules(GTKMM gtkmm-4.0)
+
+link_directories(
+    ${GTKMM_LIBRARY_DIRS})
+
+include_directories(
+    ${GTKMM_INCLUDE_DIRS})
+
 add_executable(${PROJECT_NAME} ${SOURCES} main.cpp)
+
+target_link_libraries(${PROJECT_NAME}
+${GTKMM_LIBRARIES}
+sqlite3)
