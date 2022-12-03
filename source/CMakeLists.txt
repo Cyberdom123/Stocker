@@ -14,9 +14,6 @@ include_directories(modules)
 #search forr all .cpp .h files in modules dir
 file(GLOB SOURCES "./modules/*.cpp" "./modules/*.h")
 
-file(MAKE_DIRECTORY ../build)
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/build" ${CMAKE_MODULE_PATH})
-
 #configure gtkmm package
 find_package(PkgConfig)
 pkg_check_modules(GTKMM gtkmm-4.0)
@@ -29,6 +26,7 @@ include_directories(
 
 add_executable(${PROJECT_NAME} ${SOURCES} main.cpp)
 
+#link libraries to the project
 target_link_libraries(${PROJECT_NAME}
 ${GTKMM_LIBRARIES}
 sqlite3)
