@@ -38,18 +38,6 @@ ExampleWindow::ExampleWindow()
   row[m_Columns.m_col_number] = 10;
   row[m_Columns.m_col_percentage] = 15;
 
-  row = *(m_refTreeModel->append());
-  row[m_Columns.m_col_id] = 2;
-  row[m_Columns.m_col_name] = "Joey Jojo";
-  row[m_Columns.m_col_number] = 20;
-  row[m_Columns.m_col_percentage] = 40;
-
-  row = *(m_refTreeModel->append());
-  row[m_Columns.m_col_id] = 3;
-  row[m_Columns.m_col_name] = "Rob McRoberts";
-  row[m_Columns.m_col_number] = 30;
-  row[m_Columns.m_col_percentage] = 70;
-
   //Add the TreeView's view columns:
   //This number will be shown with the default numeric formatting.
   m_TreeView.append_column("ID", m_Columns.m_col_id);
@@ -76,6 +64,20 @@ ExampleWindow::ExampleWindow()
     auto column = m_TreeView.get_column(i);
     column->set_reorderable();
   }
+}
+
+void ExampleWindow::FillColumns(dataFrame data){
+  for(auto x:data){
+    for(auto y:x){
+      std::cout << y << std::endl;
+    }
+  }
+  auto row = *(m_refTreeModel->append());
+  row[m_Columns.m_col_id] = 1;
+  row[m_Columns.m_col_name] = data[1][1];
+  row[m_Columns.m_col_number] = 10;
+  row[m_Columns.m_col_percentage] = 15;
+
 }
 
 ExampleWindow::~ExampleWindow()

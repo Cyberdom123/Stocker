@@ -9,17 +9,10 @@ int databaseManager::Callback(void *NotUsed, int argc, char **argv, char **azCol
    return 0;
 }
 
-//Replace with qui element
-int databaseManager::PrintInfo(void *data, int argc, char **argv, char **azColName){
-   int i;
-   fprintf(stderr, "%s: ", (const char*)data);
-   
-   for(i = 0; i<argc; i++){
-      printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-   }
-   
-   printf("\n");
-   return 0;
+int databaseManager::PrintInfo(void *p_data, int num_fields, char **p_fields, char **p_col_names){
+    dataFrame* resourcesPtr = static_cast<dataFrame*>(p_data);
+    resourcesPtr->emplace_back(p_fields, p_fields + num_fields);
+    return 0;
 }
 
 int databaseManager::Create(){
@@ -132,18 +125,23 @@ void databaseManager::Read(int id){
     } 
 }
 
-void databaseManager::Search(std::string text){
-   char *zErrMsg = 0;
+std::vector<std::vector<std::string>> databaseManager::Search(std::string text){
+    char *zErrMsg = 0;
     std::string sql;
+
+    dataFrame resources;
 
     sql = "SELECT * from RESOURCES where NAME like '%"+ text +"%';";
     
-    int rc = sqlite3_exec(fdb, sql.c_str(), Callback, 0, &zErrMsg);
+    int rc = sqlite3_exec(fdb, sql.c_str(), PrintInfo, &resources, &zErrMsg);
 
     if( rc != SQLITE_OK ){
         fprintf(stderr, "SQL error: %s\n", zErrMsg);
         sqlite3_free(zErrMsg);
-    } 
+    }
+
+    return resources;
+
 }
 
 void databaseManager::Delete(int id){

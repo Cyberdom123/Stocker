@@ -4,11 +4,13 @@
 
 #pragma once
 
+using dataFrame = std::vector<std::vector<std::string>>;
 
 class ExampleWindow : public Gtk::Window
 {
 public:
   ExampleWindow();
+  void FillColumns(dataFrame data);
   virtual ~ExampleWindow();
 
 protected:
@@ -19,6 +21,7 @@ protected:
   class ModelColumns : public Gtk::TreeModel::ColumnRecord
   {
   public:
+    
 
     ModelColumns()
     { add(m_col_id); add(m_col_name); add(m_col_number); add(m_col_percentage);}
