@@ -2,6 +2,7 @@
 #include <vector>
 #include "databaseManager.h"
 #include "window.h"
+#include "listElements.h"
 
 #include <gtkmm/application.h>
 
@@ -11,12 +12,13 @@ int main(int argc, char* argv[]){
   std::vector<char *> lineArgs;
   databaseManager database;
 
-  database.Create();
-  database.Insert(1,"tranzystory jfet P (drogi)", 300, "fajny tranzystorek");
-  database.Insert(2,"tranzystory jfet N (drogi)", 300, "mniej fajny tranzystorek!");
-  database.Update(2,"tranzystory jfet N (tani)", 500);
-  dataFrame data = database.Search("tranzystory");
-  database.Close();
+  //database.Create();
+  //database.Insert("Diode", 3.14, 200, 100, 0, 100,"nic");
+  // //database.Update(1, "PMOS", 6.28, 400, 200, 10, 210, "elo");
+  // dataFrame data = database.Search("tranzystory");
+  //database.ReadAll();
+  //database.Close();
+
 
   auto app = Gtk::Application::create("org.gtkmm.example");
 
