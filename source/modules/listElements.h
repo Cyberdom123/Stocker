@@ -11,7 +11,7 @@ class listElements{
         //void FillColumns(dataFrame& data, databaseManager& manager);
         Glib::RefPtr<Gtk::ListStore> GetListElements() const;
 
-        void FillList();
+        void FillList(std::string text="");
     private:
         ModelColumns m_Columns;
         databaseManager database;

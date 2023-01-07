@@ -9,9 +9,9 @@ listElements::~listElements(){}
 
 Glib::RefPtr<Gtk::ListStore> listElements::GetListElements() const { return m_refTreeModel;}
 
-void listElements::FillList(){
+void listElements::FillList(std::string text){
     database.Create();
-    dataFrame data = database.Search("");
+    dataFrame data = database.Search(text);
     //database.ReadAll();
     database.Close();
 

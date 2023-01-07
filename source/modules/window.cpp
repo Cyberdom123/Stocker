@@ -1,15 +1,27 @@
 #include "window.h"
 
 
+
+//To do: make 2 vboxes in grid, add entries and buttons to second
 ExampleWindow::ExampleWindow()
 : m_VBox(Gtk::Orientation::VERTICAL),
-  m_Button_Quit("Quit")
+  m_VBox1(Gtk::Orientation::VERTICAL),
+  //m_Button_Quit("Quit"),
+  m_Button_Submit("Submit")
 {
   set_title("Gtk::TreeView (ListStore) example");
-  set_default_size(900, 500);
+  set_default_size(1000, 500);
 
+  m_VBox.set_size_request(700, -1);
   m_VBox.set_margin(5);
   set_child(m_VBox);
+
+  m_VBox1.set_size_request(300, -1);
+  m_VBox1.set_margin(5);
+  set_child(m_VBox1);
+
+  m_Grid.set_margin(5);
+  set_child(m_Grid);
 
   //Add the TreeView, inside a ScrolledWindow, with the button underneath:
   m_ScrolledWindow.set_child(m_TreeView);
@@ -19,15 +31,28 @@ ExampleWindow::ExampleWindow()
   m_ScrolledWindow.set_expand();
 
   m_VBox.append(m_ScrolledWindow);
-  m_VBox.append(m_ButtonBox);
+  m_VBox1.append(m_Name_Entry);
+  m_VBox1.append(m_Button_Submit);
+  //m_VBox1.append(m_ButtonBox_Quit);
 
+  m_Grid.attach(m_VBox, 0, 0);
+  m_Grid.attach(m_VBox1, 1, 0);
 
-  m_ButtonBox.append(m_Button_Quit);
-  m_ButtonBox.set_margin(5);
-  m_Button_Quit.set_hexpand(true);
-  m_Button_Quit.set_halign(Gtk::Align::END);
-  m_Button_Quit.signal_clicked().connect( sigc::mem_fun(*this,
-              &ExampleWindow::on_button_quit) );
+  m_Name_Entry.set_margin(5);
+  m_Name_Entry.signal_changed().connect(sigc::mem_fun(*this, &ExampleWindow::Search));
+
+  m_ButtonBox_Submit.append(m_Button_Submit);
+  m_ButtonBox_Submit.set_margin(5);
+  m_Button_Submit.set_hexpand(true);
+  m_Button_Submit.set_halign(Gtk::Align::CENTER);
+  m_Button_Submit.signal_clicked().connect(sigc::mem_fun(*this, &ExampleWindow::SumbmitData)); //use to submit chnged item
+
+  // m_ButtonBox_Quit.append(m_Button_Quit);
+  // m_ButtonBox_Quit.set_margin(5);
+  // m_Button_Quit.set_hexpand(true);
+  // m_Button_Quit.set_halign(Gtk::Align::CENTER);
+  // m_Button_Quit.signal_clicked().connect( sigc::mem_fun(*this,
+  //              &ExampleWindow::on_button_quit) );
 
   //Create the Tree model:
   elements.FillList();
@@ -92,4 +117,16 @@ ExampleWindow::~ExampleWindow(){}
 void ExampleWindow::on_button_quit()
 {
   hide();
+}
+
+void ExampleWindow::Search(){
+  std::string text = m_Name_Entry.get_text();
+  m_refTreeModel->clear();
+  elements.FillList(text);
+  m_refTreeModel = elements.GetListElements();
+  m_TreeView.set_model(m_refTreeModel);
+}
+
+void ExampleWindow::SumbmitData(){
+  //use database manager to change data in database
 }

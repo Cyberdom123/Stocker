@@ -17,6 +17,8 @@ public:
 protected:
   //Signal handlers:
   void on_button_quit();
+  void Search();
+  void SumbmitData();
 
 
   listElements elements;
@@ -24,6 +26,7 @@ protected:
 
   //Child widgets:
   Gtk::Box m_VBox;
+  Gtk::Box m_VBox1;
   Gtk::Grid m_Grid;
 
   Gtk::CellRendererText m_TextRenderer;
@@ -41,7 +44,11 @@ protected:
   Gtk::TreeView m_TreeView;
   Glib::RefPtr<Gtk::ListStore> m_refTreeModel;
 
-  Gtk::Box m_ButtonBox;
+  Gtk::Box m_ButtonBox_Quit;
   Gtk::Button m_Button_Quit;
+  Gtk::Box m_ButtonBox_Submit;
+  Gtk::Button m_Button_Submit;
+
+  Gtk::Entry m_Name_Entry;
 };
 
