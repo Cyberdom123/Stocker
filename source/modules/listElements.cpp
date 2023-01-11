@@ -28,3 +28,23 @@ void listElements::FillList(std::string text){
         row[m_Columns.m_col_descryption] = a[7];
     }
 }
+
+void listElements::AddElement(std::string fname, std::string fprice,
+                    std::string fmaxQuantity, std::string fquantity, 
+                    std::string fsales, std::string fpurchases, 
+                    std::string fdescryption)
+{
+    std::string name = fname;
+    float price = std::stof(fprice);
+    int maxQuantity = std::stoi(fmaxQuantity);
+    int quantity = std::stoi(fquantity);
+    int sales = std::stoi(fsales);
+    int purchaes = std::stoi(fpurchases);
+    std::string descryption = fdescryption;
+
+    database.Create();
+    database.Insert(name, price, maxQuantity, quantity, sales, purchaes, descryption);
+    database.Close();
+
+    FillList();
+}

@@ -21,13 +21,16 @@ protected:
   void SumbmitData();
 
 
-  listElements elements;
+  listElements Elements;
   ModelColumns m_Columns;
 
   //Child widgets:
   Gtk::Box m_VBox;
   Gtk::Box m_VBox1;
+  Gtk::Box m_VBox2;
+  Gtk::Box m_VBox3;
   Gtk::Grid m_Grid;
+  Gtk::Notebook m_Notebook;
 
   Gtk::CellRendererText m_TextRenderer;
   Gtk::CellRendererText m_TextRenderer1;
@@ -44,11 +47,28 @@ protected:
   Gtk::TreeView m_TreeView;
   Glib::RefPtr<Gtk::ListStore> m_refTreeModel;
 
+  Gtk::Label m_Search_Label;
+  Gtk::Label m_Label1;
+  Gtk::Label m_Name1_Label;
+  Gtk::Label m_Price_Label;
+  Gtk::Label m_MaxQuantity_Label;
+  Gtk::Label m_Quantity_Label;
+  Gtk::Label m_Sales_Label;
+  Gtk::Label m_Purchases_Label;
+  Gtk::Label m_Descryption_Label;
+
   Gtk::Box m_ButtonBox_Quit;
   Gtk::Button m_Button_Quit;
   Gtk::Box m_ButtonBox_Submit;
   Gtk::Button m_Button_Submit;
 
   Gtk::Entry m_Name_Entry;
-};
 
+  Gtk::Entry m_Name1_Entry;
+  Gtk::Entry m_Price_Entry;
+  Gtk::Entry m_MaxQuantity_Entry;
+  Gtk::Entry m_Quantity_Entry;
+  Gtk::Entry m_Sales_Entry;
+  Gtk::Entry m_Purchases_Entry;
+  Gtk::Entry m_Descryption_Entry;
+};

@@ -1,12 +1,10 @@
 #include "window.h"
 
-
-
 //To do: make 2 vboxes in grid, add entries and buttons to second
 Window::Window()
 : m_VBox(Gtk::Orientation::VERTICAL),
   m_VBox1(Gtk::Orientation::VERTICAL),
-  //m_Button_Quit("Quit"),
+  m_VBox2(Gtk::Orientation::VERTICAL),
   m_Button_Submit("Submit")
 {
   set_title("Stocker");
@@ -23,6 +21,18 @@ Window::Window()
   m_Grid.set_margin(5);
   set_child(m_Grid);
 
+  m_Notebook.set_margin(5);
+
+  m_Name1_Entry.set_margin(5);
+  m_Price_Entry.set_margin(5);
+  m_MaxQuantity_Entry.set_margin(5);
+  m_Quantity_Entry.set_margin(5);
+  m_Sales_Entry.set_margin(5);
+  m_Purchases_Entry.set_margin(5);
+  
+  m_Descryption_Entry.set_margin(5);
+  m_Descryption_Entry.set_size_request(-1,100);
+
   //Add the TreeView, inside a ScrolledWindow, with the button underneath:
   m_ScrolledWindow.set_child(m_TreeView);
 
@@ -30,33 +40,95 @@ Window::Window()
   m_ScrolledWindow.set_policy(Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
   m_ScrolledWindow.set_expand();
 
+  //Append all elemnets to Vboxes
   m_VBox.append(m_ScrolledWindow);
+  
+  m_VBox1.append(m_Search_Label);
   m_VBox1.append(m_Name_Entry);
-  m_VBox1.append(m_Button_Submit);
-  //m_VBox1.append(m_ButtonBox_Quit);
+  m_VBox1.append(m_Notebook);
 
+  m_VBox2.append(m_Name1_Label);
+  m_VBox2.append(m_Name1_Entry);
+  m_VBox3.append(m_Name1_Label);
+  m_VBox3.append(m_Name1_Entry);
+
+  m_VBox2.append(m_Price_Label);
+  m_VBox2.append(m_Price_Entry);
+
+  m_VBox2.append(m_MaxQuantity_Label);
+  m_VBox2.append(m_MaxQuantity_Entry);
+
+  m_VBox2.append(m_Quantity_Label);
+  m_VBox2.append(m_Quantity_Entry);
+
+  m_VBox2.append(m_Sales_Label);
+  m_VBox2.append(m_Sales_Entry);
+
+  m_VBox2.append(m_Purchases_Label);
+  m_VBox2.append(m_Purchases_Entry);
+
+  m_VBox2.append(m_Descryption_Label);
+  m_VBox2.append(m_Descryption_Entry);
+
+  m_VBox2.append(m_Button_Submit);
+
+
+  //Make two Vboxes next to each other
   m_Grid.attach(m_VBox, 0, 0);
   m_Grid.attach(m_VBox1, 1, 0);
 
+  //-------Create search bar-------
+
+  m_Search_Label.set_text("Search by name:");
   m_Name_Entry.set_margin(5);
   m_Name_Entry.signal_changed().connect(sigc::mem_fun(*this, &Window::Search));
 
-  m_ButtonBox_Submit.append(m_Button_Submit);
+  //-------Create add, update form-------
+
+  m_Name1_Label.set_text("Name:");
+  m_Name1_Label.set_margin_start(5);
+  m_Name1_Label.set_xalign(0);
+
+  m_Price_Label.set_text("Price:");
+  m_Price_Label.set_margin_start(5);
+  m_Price_Label.set_xalign(0);
+
+  m_MaxQuantity_Label.set_text("Max Quantity:");
+  m_MaxQuantity_Label.set_margin_start(5);
+  m_MaxQuantity_Label.set_xalign(0);
+
+  m_Quantity_Label.set_text("Quantity:");
+  m_Quantity_Label.set_margin_start(5);
+  m_Quantity_Label.set_xalign(0);
+
+  m_Sales_Label.set_text("Sales:");
+  m_Sales_Label.set_margin_start(5);
+  m_Sales_Label.set_xalign(0);
+
+  m_Purchases_Label.set_text("Purchases:");
+  m_Purchases_Label.set_margin_start(5);
+  m_Purchases_Label.set_xalign(0);
+  
+  m_Descryption_Label.set_text("Descryption:");
+  m_Descryption_Label.set_margin_start(5);  
+  m_Descryption_Label.set_xalign(0);
+
   m_ButtonBox_Submit.set_margin(5);
+  m_Button_Submit.set_margin_bottom(5);
   m_Button_Submit.set_hexpand(true);
   m_Button_Submit.set_halign(Gtk::Align::CENTER);
-  m_Button_Submit.signal_clicked().connect(sigc::mem_fun(*this, &Window::SumbmitData)); //use to submit chnged item
+  m_Button_Submit.signal_clicked().connect(
+                  sigc::mem_fun(*this, &Window::SumbmitData));
+                  //use to add item
 
-  // m_ButtonBox_Quit.append(m_Button_Quit);
-  // m_ButtonBox_Quit.set_margin(5);
-  // m_Button_Quit.set_hexpand(true);
-  // m_Button_Quit.set_halign(Gtk::Align::CENTER);
-  // m_Button_Quit.signal_clicked().connect( sigc::mem_fun(*this,
-  //              &Window::on_button_quit) );
+  m_Notebook.append_page(m_VBox2, "Add");
 
-  //Create the Tree model:
-  elements.FillList();
-  m_refTreeModel = elements.GetListElements();
+  m_Notebook.append_page(m_Label1, "Update");
+
+  //-------Create the Tree model-------
+
+  Elements.FillList();
+  m_refTreeModel = Elements.GetListElements();
   m_TreeView.set_model(m_refTreeModel);
 
   //Fix alignment
@@ -122,11 +194,22 @@ void Window::on_button_quit()
 void Window::Search(){
   std::string text = m_Name_Entry.get_text();
   m_refTreeModel->clear();
-  elements.FillList(text);
-  m_refTreeModel = elements.GetListElements();
-  m_TreeView.set_model(m_refTreeModel);
+  Elements.FillList(text);
+  m_refTreeModel = Elements.GetListElements();
+  //m_TreeView.set_model(m_refTreeModel);
 }
 
 void Window::SumbmitData(){
-  //use database manager to change data in database
+  std::string name = m_Name1_Entry.get_text();
+  std::string price = m_Price_Entry.get_text();
+  std::string maxQuantity = m_MaxQuantity_Entry.get_text();
+  std::string quantity = m_Quantity_Entry.get_text();
+  std::string sales = m_Sales_Entry.get_text();
+  std::string purchases = m_Purchases_Entry.get_text();
+  std::string descryption = m_Descryption_Entry.get_text();
+
+  std::cout << name << '\n';
+  m_refTreeModel->clear();
+  Elements.AddElement(name, price, maxQuantity, quantity, sales,
+                      purchases, descryption);
 }

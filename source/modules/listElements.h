@@ -10,6 +10,9 @@ class listElements{
         virtual ~listElements();
         //void FillColumns(dataFrame& data, databaseManager& manager);
         Glib::RefPtr<Gtk::ListStore> GetListElements() const;
+        void AddElement(std::string name, std::string price,
+                    std::string maxQuantity, std::string quantity, std::string sales, 
+                    std::string purchases, std::string descryption);
 
         void FillList(std::string text="");
     private:
