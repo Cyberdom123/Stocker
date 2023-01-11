@@ -3,13 +3,13 @@
 
 
 //To do: make 2 vboxes in grid, add entries and buttons to second
-ExampleWindow::ExampleWindow()
+Window::Window()
 : m_VBox(Gtk::Orientation::VERTICAL),
   m_VBox1(Gtk::Orientation::VERTICAL),
   //m_Button_Quit("Quit"),
   m_Button_Submit("Submit")
 {
-  set_title("Gtk::TreeView (ListStore) example");
+  set_title("Stocker");
   set_default_size(1000, 500);
 
   m_VBox.set_size_request(700, -1);
@@ -39,20 +39,20 @@ ExampleWindow::ExampleWindow()
   m_Grid.attach(m_VBox1, 1, 0);
 
   m_Name_Entry.set_margin(5);
-  m_Name_Entry.signal_changed().connect(sigc::mem_fun(*this, &ExampleWindow::Search));
+  m_Name_Entry.signal_changed().connect(sigc::mem_fun(*this, &Window::Search));
 
   m_ButtonBox_Submit.append(m_Button_Submit);
   m_ButtonBox_Submit.set_margin(5);
   m_Button_Submit.set_hexpand(true);
   m_Button_Submit.set_halign(Gtk::Align::CENTER);
-  m_Button_Submit.signal_clicked().connect(sigc::mem_fun(*this, &ExampleWindow::SumbmitData)); //use to submit chnged item
+  m_Button_Submit.signal_clicked().connect(sigc::mem_fun(*this, &Window::SumbmitData)); //use to submit chnged item
 
   // m_ButtonBox_Quit.append(m_Button_Quit);
   // m_ButtonBox_Quit.set_margin(5);
   // m_Button_Quit.set_hexpand(true);
   // m_Button_Quit.set_halign(Gtk::Align::CENTER);
   // m_Button_Quit.signal_clicked().connect( sigc::mem_fun(*this,
-  //              &ExampleWindow::on_button_quit) );
+  //              &Window::on_button_quit) );
 
   //Create the Tree model:
   elements.FillList();
@@ -112,14 +112,14 @@ ExampleWindow::ExampleWindow()
 
 }
 
-ExampleWindow::~ExampleWindow(){}
+Window::~Window(){}
 
-void ExampleWindow::on_button_quit()
+void Window::on_button_quit()
 {
   hide();
 }
 
-void ExampleWindow::Search(){
+void Window::Search(){
   std::string text = m_Name_Entry.get_text();
   m_refTreeModel->clear();
   elements.FillList(text);
@@ -127,6 +127,6 @@ void ExampleWindow::Search(){
   m_TreeView.set_model(m_refTreeModel);
 }
 
-void ExampleWindow::SumbmitData(){
+void Window::SumbmitData(){
   //use database manager to change data in database
 }

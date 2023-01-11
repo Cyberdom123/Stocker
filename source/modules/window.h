@@ -8,11 +8,11 @@
 
 using dataFrame = std::vector<std::vector<std::string>>;
 
-class ExampleWindow : public Gtk::Window
+class Window : public Gtk::Window
 {
 public:
-  ExampleWindow();
-  virtual ~ExampleWindow();
+  Window();
+  virtual ~Window();
 
 protected:
   //Signal handlers:
