@@ -48,3 +48,23 @@ void listElements::AddElement(std::string fname, std::string fprice,
 
     FillList();
 }
+
+void listElements::UpdateElement(int fid, std::string fname, std::string fprice,
+                    std::string fmaxQuantity, std::string fquantity, std::string fsales, 
+                    std::string fpurchases, std::string fdescryption)
+{
+    int id = fid;
+    std::string name = fname;
+    float price = std::stof(fprice);
+    int maxQuantity = std::stoi(fmaxQuantity);
+    int quantity = std::stoi(fquantity);
+    int sales = std::stoi(fsales);
+    int purchaes = std::stoi(fpurchases);
+    std::string descryption = fdescryption;
+
+    database.Create();
+    database.Update(id, name, price, maxQuantity, quantity, sales, purchaes, descryption);
+    database.Close();
+
+    FillList();
+}

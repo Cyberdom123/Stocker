@@ -5,7 +5,9 @@ Window::Window()
 : m_VBox(Gtk::Orientation::VERTICAL),
   m_VBox1(Gtk::Orientation::VERTICAL),
   m_VBox2(Gtk::Orientation::VERTICAL),
-  m_Button_Submit("Submit")
+  m_VBox3(Gtk::Orientation::VERTICAL),
+  m_Button_Submit("Submit"),
+  m_Button_Submit1("Submit")
 {
   set_title("Stocker");
   set_default_size(1000, 500);
@@ -30,8 +32,19 @@ Window::Window()
   m_Sales_Entry.set_margin(5);
   m_Purchases_Entry.set_margin(5);
   
+
+  m_Name2_Entry.set_margin(5);
+  m_Price1_Entry.set_margin(5);
+  m_MaxQuantity1_Entry.set_margin(5);
+  m_Quantity1_Entry.set_margin(5);
+  m_Sales1_Entry.set_margin(5);
+  m_Purchases1_Entry.set_margin(5);
+  
   m_Descryption_Entry.set_margin(5);
   m_Descryption_Entry.set_size_request(-1,100);
+  
+  m_Descryption1_Entry.set_margin(5);
+  m_Descryption1_Entry.set_size_request(-1,100);
 
   //Add the TreeView, inside a ScrolledWindow, with the button underneath:
   m_ScrolledWindow.set_child(m_TreeView);
@@ -49,8 +62,6 @@ Window::Window()
 
   m_VBox2.append(m_Name1_Label);
   m_VBox2.append(m_Name1_Entry);
-  m_VBox3.append(m_Name1_Label);
-  m_VBox3.append(m_Name1_Entry);
 
   m_VBox2.append(m_Price_Label);
   m_VBox2.append(m_Price_Entry);
@@ -71,6 +82,29 @@ Window::Window()
   m_VBox2.append(m_Descryption_Entry);
 
   m_VBox2.append(m_Button_Submit);
+
+  m_VBox3.append(m_Name2_Label);
+  m_VBox3.append(m_Name2_Entry);
+
+  m_VBox3.append(m_Price1_Label);
+  m_VBox3.append(m_Price1_Entry);
+
+  m_VBox3.append(m_MaxQuantity1_Label);
+  m_VBox3.append(m_MaxQuantity1_Entry);
+
+  m_VBox3.append(m_Quantity1_Label);
+  m_VBox3.append(m_Quantity1_Entry);
+
+  m_VBox3.append(m_Sales1_Label);
+  m_VBox3.append(m_Sales1_Entry);
+
+  m_VBox3.append(m_Purchases1_Label);
+  m_VBox3.append(m_Purchases1_Entry);
+
+  m_VBox3.append(m_Descryption1_Label);
+  m_VBox3.append(m_Descryption1_Entry);
+
+  m_VBox3.append(m_Button_Submit1);
 
 
   //Make two Vboxes next to each other
@@ -113,6 +147,36 @@ Window::Window()
   m_Descryption_Label.set_margin_start(5);  
   m_Descryption_Label.set_xalign(0);
 
+//-------------------------------------------------
+
+  m_Name2_Label.set_text("Name:");
+  m_Name2_Label.set_margin_start(5);
+  m_Name2_Label.set_xalign(0);
+
+  m_Price1_Label.set_text("Price:");
+  m_Price1_Label.set_margin_start(5);
+  m_Price1_Label.set_xalign(0);
+
+  m_MaxQuantity1_Label.set_text("Max Quantity:");
+  m_MaxQuantity1_Label.set_margin_start(5);
+  m_MaxQuantity1_Label.set_xalign(0);
+
+  m_Quantity1_Label.set_text("Quantity:");
+  m_Quantity1_Label.set_margin_start(5);
+  m_Quantity1_Label.set_xalign(0);
+
+  m_Sales1_Label.set_text("Sales:");
+  m_Sales1_Label.set_margin_start(5);
+  m_Sales1_Label.set_xalign(0);
+
+  m_Purchases1_Label.set_text("Purchases:");
+  m_Purchases1_Label.set_margin_start(5);
+  m_Purchases1_Label.set_xalign(0);
+  
+  m_Descryption1_Label.set_text("Descryption:");
+  m_Descryption1_Label.set_margin_start(5);  
+  m_Descryption1_Label.set_xalign(0);
+
   m_ButtonBox_Submit.set_margin(5);
   m_Button_Submit.set_margin_bottom(5);
   m_Button_Submit.set_hexpand(true);
@@ -121,9 +185,17 @@ Window::Window()
                   sigc::mem_fun(*this, &Window::SumbmitData));
                   //use to add item
 
-  m_Notebook.append_page(m_VBox2, "Add");
+  m_ButtonBox_Submit1.set_margin(5);
+  m_Button_Submit1.set_margin_bottom(5);
+  m_Button_Submit1.set_hexpand(true);
+  m_Button_Submit1.set_halign(Gtk::Align::CENTER);
+  m_Button_Submit1.signal_clicked().connect(
+                  sigc::mem_fun(*this, &Window::UpdateData));
+                  //use to add item
 
-  m_Notebook.append_page(m_Label1, "Update");
+  m_Notebook.append_page(m_VBox3, "Update");
+
+  m_Notebook.append_page(m_VBox2, "Add");
 
   //-------Create the Tree model-------
 
@@ -182,6 +254,9 @@ Window::Window()
   m_TreeViewColumn6.set_max_width(50);
   m_TreeView.append_column(m_TreeViewColumn6);
 
+  auto selection = m_TreeView.get_selection();
+  selection -> signal_changed().connect(sigc::mem_fun(*this, &Window::RowSelected));
+
 }
 
 Window::~Window(){}
@@ -212,4 +287,41 @@ void Window::SumbmitData(){
   m_refTreeModel->clear();
   Elements.AddElement(name, price, maxQuantity, quantity, sales,
                       purchases, descryption);
+}
+
+void Window::RowSelected(){
+  //to do: make try, catch iter
+  //if iter == none, display last selection
+  Gtk::TreeModel::iterator iter = m_TreeView.get_selection() -> get_selected();
+  Gtk::TreeModel::Row row = *iter;
+  std::cout << row.get_value(m_Columns.m_col_id) << std::endl;
+
+  //this is not workig well
+  selectedRowId = row.get_value(m_Columns.m_col_id);
+  if(selectedRowId != 0){
+    m_Name2_Entry.set_text(row.get_value(m_Columns.m_col_name));
+    m_Price1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_price)));
+    m_MaxQuantity1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_max_quantity)));
+    m_Quantity1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_quantity)));
+    m_Sales1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_sales)));
+    m_Purchases1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_purchases)));
+    m_Descryption1_Entry.set_text(row.get_value(m_Columns.m_col_descryption));
+  }
+}
+
+void Window::UpdateData(){
+  if(selectedRowId != 0){
+    int id = selectedRowId;
+    std::string name = m_Name2_Entry.get_text();
+    std::string price = m_Price1_Entry.get_text();
+    std::string maxQuantity = m_MaxQuantity1_Entry.get_text();
+    std::string quantity = m_Quantity1_Entry.get_text();
+    std::string sales = m_Sales1_Entry.get_text();
+    std::string purchases = m_Purchases1_Entry.get_text();
+    std::string descryption = m_Descryption1_Entry.get_text();
+
+    m_refTreeModel->clear();
+    Elements.UpdateElement(id, name, price, maxQuantity, quantity,
+                          sales, purchases, descryption);
+  }
 }

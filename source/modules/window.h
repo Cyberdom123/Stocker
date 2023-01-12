@@ -14,11 +14,16 @@ public:
   Window();
   virtual ~Window();
 
+private:
+  int selectedRowId{1};
+
 protected:
   //Signal handlers:
   void on_button_quit();
   void Search();
   void SumbmitData();
+  void RowSelected();
+  void UpdateData();
 
 
   listElements Elements;
@@ -34,7 +39,7 @@ protected:
 
   Gtk::CellRendererText m_TextRenderer;
   Gtk::CellRendererText m_TextRenderer1;
-  //To do: replace with vector of objects
+  
   Gtk::TreeViewColumn m_TreeViewColumn;
   Gtk::TreeViewColumn m_TreeViewColumn1;
   Gtk::TreeViewColumn m_TreeViewColumn2;
@@ -49,6 +54,8 @@ protected:
 
   Gtk::Label m_Search_Label;
   Gtk::Label m_Label1;
+
+//-------Add box-------
   Gtk::Label m_Name1_Label;
   Gtk::Label m_Price_Label;
   Gtk::Label m_MaxQuantity_Label;
@@ -57,13 +64,29 @@ protected:
   Gtk::Label m_Purchases_Label;
   Gtk::Label m_Descryption_Label;
 
+//-------Update box-------
+  Gtk::Label m_Name2_Label;
+  Gtk::Label m_Price1_Label;
+  Gtk::Label m_MaxQuantity1_Label;
+  Gtk::Label m_Quantity1_Label;
+  Gtk::Label m_Sales1_Label;
+  Gtk::Label m_Purchases1_Label;
+  Gtk::Label m_Descryption1_Label;
+
   Gtk::Box m_ButtonBox_Quit;
   Gtk::Button m_Button_Quit;
+
+//-------Add box-------
   Gtk::Box m_ButtonBox_Submit;
   Gtk::Button m_Button_Submit;
 
+//-------Update box-------
+  Gtk::Box m_ButtonBox_Submit1;
+  Gtk::Button m_Button_Submit1;
+
   Gtk::Entry m_Name_Entry;
 
+//-------Add box-------
   Gtk::Entry m_Name1_Entry;
   Gtk::Entry m_Price_Entry;
   Gtk::Entry m_MaxQuantity_Entry;
@@ -71,4 +94,13 @@ protected:
   Gtk::Entry m_Sales_Entry;
   Gtk::Entry m_Purchases_Entry;
   Gtk::Entry m_Descryption_Entry;
+
+//-------Update box-------
+  Gtk::Entry m_Name2_Entry;
+  Gtk::Entry m_Price1_Entry;
+  Gtk::Entry m_MaxQuantity1_Entry;
+  Gtk::Entry m_Quantity1_Entry;
+  Gtk::Entry m_Sales1_Entry;
+  Gtk::Entry m_Purchases1_Entry;
+  Gtk::Entry m_Descryption1_Entry;
 };
