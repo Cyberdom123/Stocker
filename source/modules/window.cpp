@@ -293,12 +293,12 @@ void Window::RowSelected(){
   //to do: make try, catch iter
   //if iter == none, display last selection
   Gtk::TreeModel::iterator iter = m_TreeView.get_selection() -> get_selected();
-  Gtk::TreeModel::Row row = *iter;
-  std::cout << row.get_value(m_Columns.m_col_id) << std::endl;
 
-  //this is not workig well
-  selectedRowId = row.get_value(m_Columns.m_col_id);
-  if(selectedRowId != 0){
+  if(iter){ 
+    Gtk::TreeModel::Row row = *iter;
+    std::cout << row.get_value(m_Columns.m_col_id) << std::endl;
+  
+    selectedRowId = row.get_value(m_Columns.m_col_id);
     m_Name2_Entry.set_text(row.get_value(m_Columns.m_col_name));
     m_Price1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_price)));
     m_MaxQuantity1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_max_quantity)));
