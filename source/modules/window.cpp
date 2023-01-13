@@ -287,6 +287,7 @@ void Window::SumbmitData(){
   m_refTreeModel->clear();
   Elements.AddElement(name, price, maxQuantity, quantity, sales,
                       purchases, descryption);
+  Search();
 }
 
 void Window::RowSelected(){
@@ -323,5 +324,6 @@ void Window::UpdateData(){
     m_refTreeModel->clear();
     Elements.UpdateElement(id, name, price, maxQuantity, quantity,
                           sales, purchases, descryption);
+    Search();
   }
 }

@@ -45,8 +45,6 @@ void listElements::AddElement(std::string fname, std::string fprice,
     database.Create();
     database.Insert(name, price, maxQuantity, quantity, sales, purchaes, descryption);
     database.Close();
-
-    FillList();
 }
 
 void listElements::UpdateElement(int fid, std::string fname, std::string fprice,
@@ -57,14 +55,12 @@ void listElements::UpdateElement(int fid, std::string fname, std::string fprice,
     std::string name = fname;
     float price = std::stof(fprice);
     int maxQuantity = std::stoi(fmaxQuantity);
-    int quantity = std::stoi(fquantity);
     int sales = std::stoi(fsales);
     int purchaes = std::stoi(fpurchases);
+    int quantity = purchaes - sales; //throw exception if sales < purchases
     std::string descryption = fdescryption;
 
     database.Create();
     database.Update(id, name, price, maxQuantity, quantity, sales, purchaes, descryption);
     database.Close();
-
-    FillList();
 }
