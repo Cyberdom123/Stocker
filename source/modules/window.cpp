@@ -28,15 +28,13 @@ Window::Window()
   m_Name1_Entry.set_margin(5);
   m_Price_Entry.set_margin(5);
   m_MaxQuantity_Entry.set_margin(5);
-  m_Quantity_Entry.set_margin(5);
   m_Sales_Entry.set_margin(5);
   m_Purchases_Entry.set_margin(5);
   
 
   m_Name2_Entry.set_margin(5);
   m_Price1_Entry.set_margin(5);
-  m_MaxQuantity1_Entry.set_margin(5);
-  m_Quantity1_Entry.set_margin(5);
+  m_MaxQuantity1_Entry.set_margin(5);  
   m_Sales1_Entry.set_margin(5);
   m_Purchases1_Entry.set_margin(5);
   
@@ -69,9 +67,6 @@ Window::Window()
   m_VBox2.append(m_MaxQuantity_Label);
   m_VBox2.append(m_MaxQuantity_Entry);
 
-  m_VBox2.append(m_Quantity_Label);
-  m_VBox2.append(m_Quantity_Entry);
-
   m_VBox2.append(m_Sales_Label);
   m_VBox2.append(m_Sales_Entry);
 
@@ -91,9 +86,6 @@ Window::Window()
 
   m_VBox3.append(m_MaxQuantity1_Label);
   m_VBox3.append(m_MaxQuantity1_Entry);
-
-  m_VBox3.append(m_Quantity1_Label);
-  m_VBox3.append(m_Quantity1_Entry);
 
   m_VBox3.append(m_Sales1_Label);
   m_VBox3.append(m_Sales1_Entry);
@@ -115,7 +107,8 @@ Window::Window()
 
   m_Search_Label.set_text("Search by name:");
   m_Name_Entry.set_margin(5);
-  m_Name_Entry.signal_changed().connect(sigc::mem_fun(*this, &Window::Search));
+  m_Name_Entry.set_max_length(80);
+;  m_Name_Entry.signal_changed().connect(sigc::mem_fun(*this, &Window::Search));
 
   //-------Create add, update form-------
 
@@ -131,9 +124,6 @@ Window::Window()
   m_MaxQuantity_Label.set_margin_start(5);
   m_MaxQuantity_Label.set_xalign(0);
 
-  m_Quantity_Label.set_text("Quantity:");
-  m_Quantity_Label.set_margin_start(5);
-  m_Quantity_Label.set_xalign(0);
 
   m_Sales_Label.set_text("Sales:");
   m_Sales_Label.set_margin_start(5);
@@ -267,25 +257,31 @@ void Window::on_button_quit()
 }
 
 void Window::Search(){
+  m_id = selectedRowId;
+  m_name = m_Name2_Entry.get_text();
+  m_maxQuantity = m_MaxQuantity1_Entry.get_text();
+  m_price = m_Price1_Entry.get_text();    
+  m_sales = m_Sales1_Entry.get_text();
+  m_purchases = m_Purchases1_Entry.get_text();
+  m_descryption = m_Descryption1_Entry.get_text();
+
   std::string text = m_Name_Entry.get_text();
   m_refTreeModel->clear();
   Elements.FillList(text);
   m_refTreeModel = Elements.GetListElements();
-  //m_TreeView.set_model(m_refTreeModel);
 }
 
 void Window::SumbmitData(){
   std::string name = m_Name1_Entry.get_text();
   std::string price = m_Price_Entry.get_text();
   std::string maxQuantity = m_MaxQuantity_Entry.get_text();
-  std::string quantity = m_Quantity_Entry.get_text();
   std::string sales = m_Sales_Entry.get_text();
   std::string purchases = m_Purchases_Entry.get_text();
   std::string descryption = m_Descryption_Entry.get_text();
 
   std::cout << name << '\n';
   m_refTreeModel->clear();
-  Elements.AddElement(name, price, maxQuantity, quantity, sales,
+  Elements.AddElement(name, price, maxQuantity, sales,
                       purchases, descryption);
   Search();
 }
@@ -294,19 +290,28 @@ void Window::RowSelected(){
   //to do: make try, catch iter
   //if iter == none, display last selection
   Gtk::TreeModel::iterator iter = m_TreeView.get_selection() -> get_selected();
+  int countSelected = m_TreeView.get_selection() -> count_selected_rows();
+  
 
-  if(iter){ 
+  if(countSelected != 0){ 
     Gtk::TreeModel::Row row = *iter;
     std::cout << row.get_value(m_Columns.m_col_id) << std::endl;
   
     selectedRowId = row.get_value(m_Columns.m_col_id);
     m_Name2_Entry.set_text(row.get_value(m_Columns.m_col_name));
-    m_Price1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_price)));
     m_MaxQuantity1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_max_quantity)));
-    m_Quantity1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_quantity)));
+    m_Price1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_price)));    
     m_Sales1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_sales)));
     m_Purchases1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_purchases)));
     m_Descryption1_Entry.set_text(row.get_value(m_Columns.m_col_descryption));
+  }else{//if nothig is displayed on list, set last selected
+    selectedRowId = m_id;
+    m_Name2_Entry.set_text(m_name);
+    m_MaxQuantity1_Entry.set_text(m_maxQuantity);
+    m_Price1_Entry.set_text(m_price);    
+    m_Sales1_Entry.set_text(m_sales);
+    m_Purchases1_Entry.set_text(m_purchases);
+    m_Descryption1_Entry.set_text(m_descryption);
   }
 }
 
@@ -314,15 +319,14 @@ void Window::UpdateData(){
   if(selectedRowId != 0){
     int id = selectedRowId;
     std::string name = m_Name2_Entry.get_text();
-    std::string price = m_Price1_Entry.get_text();
     std::string maxQuantity = m_MaxQuantity1_Entry.get_text();
-    std::string quantity = m_Quantity1_Entry.get_text();
+    std::string price = m_Price1_Entry.get_text();    
     std::string sales = m_Sales1_Entry.get_text();
     std::string purchases = m_Purchases1_Entry.get_text();
     std::string descryption = m_Descryption1_Entry.get_text();
 
     m_refTreeModel->clear();
-    Elements.UpdateElement(id, name, price, maxQuantity, quantity,
+    Elements.UpdateElement(id, name, price, maxQuantity,
                           sales, purchases, descryption);
     Search();
   }

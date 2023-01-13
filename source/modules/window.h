@@ -17,6 +17,15 @@ public:
 private:
   int selectedRowId{1};
 
+  //save last selected row
+  int m_id;
+  std::string m_name;
+  std::string m_maxQuantity;
+  std::string m_price;    
+  std::string m_sales;
+  std::string m_purchases;
+  std::string m_descryption;
+
 protected:
   //Signal handlers:
   void on_button_quit();

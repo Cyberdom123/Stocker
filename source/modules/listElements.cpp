@@ -30,37 +30,40 @@ void listElements::FillList(std::string text){
 }
 
 void listElements::AddElement(std::string fname, std::string fprice,
-                    std::string fmaxQuantity, std::string fquantity, 
-                    std::string fsales, std::string fpurchases, 
-                    std::string fdescryption)
+                    std::string fmaxQuantity, std::string fsales,
+                    std::string fpurchases, std::string fdescryption)
 {
     std::string name = fname;
     float price = std::stof(fprice);
     int maxQuantity = std::stoi(fmaxQuantity);
-    int quantity = std::stoi(fquantity);
     int sales = std::stoi(fsales);
     int purchaes = std::stoi(fpurchases);
+    int quantity = purchaes - sales;
     std::string descryption = fdescryption;
 
-    database.Create();
-    database.Insert(name, price, maxQuantity, quantity, sales, purchaes, descryption);
-    database.Close();
+    if((quantity) >= 0 && (quantity <= maxQuantity)){
+        database.Create();
+        database.Insert(name, price, maxQuantity, quantity, sales, purchaes, descryption);
+        database.Close();
+    }
 }
 
 void listElements::UpdateElement(int fid, std::string fname, std::string fprice,
-                    std::string fmaxQuantity, std::string fquantity, std::string fsales, 
+                    std::string fmaxQuantity, std::string fsales, 
                     std::string fpurchases, std::string fdescryption)
 {
+    int sales = std::stoi(fsales);
+    int purchaes = std::stoi(fpurchases);
     int id = fid;
     std::string name = fname;
     float price = std::stof(fprice);
     int maxQuantity = std::stoi(fmaxQuantity);
-    int sales = std::stoi(fsales);
-    int purchaes = std::stoi(fpurchases);
     int quantity = purchaes - sales; //throw exception if sales < purchases
     std::string descryption = fdescryption;
 
-    database.Create();
-    database.Update(id, name, price, maxQuantity, quantity, sales, purchaes, descryption);
-    database.Close();
+    if((quantity) >= 0 && (quantity <= maxQuantity)){
+        database.Create();
+        database.Update(id, name, price, maxQuantity, quantity, sales, purchaes, descryption);
+        database.Close();
+    }
 }
