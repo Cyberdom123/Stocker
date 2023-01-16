@@ -1,5 +1,9 @@
 # Stocker
 
+Stocker uses gtkmm and sqlite3.0
+
+# Compilation
+
 In order to compile, type in terminal:
 ```
 cd Stocker
