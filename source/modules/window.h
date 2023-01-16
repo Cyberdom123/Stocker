@@ -48,9 +48,10 @@ protected:
   Gtk::Notebook m_Notebook;
 
   Gtk::CellRendererText m_TextRenderer;
-  Gtk::CellRendererText m_TextRenderer1;
+  Gtk::CellRendererText m_TextRenderer1; //for different text alignment
   
   Gtk::TreeViewColumn m_TreeViewColumn;
+  Gtk::TreeViewColumn m_TreeViewColumn7;
   Gtk::TreeViewColumn m_TreeViewColumn1;
   Gtk::TreeViewColumn m_TreeViewColumn2;
   Gtk::TreeViewColumn m_TreeViewColumn3;
@@ -61,6 +62,7 @@ protected:
   Gtk::ScrolledWindow m_ScrolledWindow;
   Gtk::TreeView m_TreeView;
   Glib::RefPtr<Gtk::ListStore> m_refTreeModel;
+  std::unique_ptr<Gtk::MessageDialog> m_pDialog;
 
   Gtk::Label m_Search_Label;
   Gtk::Label m_Label1;

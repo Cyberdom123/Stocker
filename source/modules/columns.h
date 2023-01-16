@@ -11,7 +11,7 @@ class ModelColumns : public Gtk::TreeModel::ColumnRecord
 
     Gtk::TreeModelColumn<unsigned int> m_col_id;
     Gtk::TreeModelColumn<Glib::ustring> m_col_name;
-    Gtk::TreeModelColumn<float> m_col_price;
+    Gtk::TreeModelColumn<Glib::ustring> m_col_price;
     Gtk::TreeModelColumn<int> m_col_max_quantity;
     Gtk::TreeModelColumn<int> m_col_quantity;
     Gtk::TreeModelColumn<int> m_col_sales;

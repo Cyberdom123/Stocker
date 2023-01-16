@@ -105,7 +105,7 @@ void databaseManager::Update(int id, std::string name, float price, int maxQuant
         }
     }
 
-    if(quantity != 0){
+    if(quantity != -1){
         sql = "UPDATE RESOURCES set QUANTITY ="+std::to_string(quantity)+"  where ID="+std::to_string(id)+";";
         
         int rc = sqlite3_exec(fdb, sql.c_str(), Callback, 0, &zErrMsg);
@@ -116,7 +116,7 @@ void databaseManager::Update(int id, std::string name, float price, int maxQuant
         }   
     }
 
-    if(sales != 0){
+    if(sales != -1){
         sql = "UPDATE RESOURCES set SALES ="+std::to_string(sales)+"  where ID="+std::to_string(id)+";";
         
         int rc = sqlite3_exec(fdb, sql.c_str(), Callback, 0, &zErrMsg);
@@ -127,7 +127,7 @@ void databaseManager::Update(int id, std::string name, float price, int maxQuant
         }   
     }
 
-    if(purchases != 0){
+    if(purchases != -1){
         sql = "UPDATE RESOURCES set PURCHASES ="+std::to_string(purchases)+"  where ID="+std::to_string(id)+";";
         
         int rc = sqlite3_exec(fdb, sql.c_str(), Callback, 0, &zErrMsg);
@@ -138,16 +138,16 @@ void databaseManager::Update(int id, std::string name, float price, int maxQuant
         }   
     }
 
-    if(descryption != ""){
-        sql = "UPDATE RESOURCES set DESCRYPTION ='" +descryption+ "' where ID="+std::to_string(id)+";";
 
-        int rc = sqlite3_exec(fdb, sql.c_str(), Callback, 0, &zErrMsg);
+    sql = "UPDATE RESOURCES set DESCRYPTION ='" +descryption+ "' where ID="+std::to_string(id)+";";
 
-        if( rc != SQLITE_OK ){
-            fprintf(stderr, "SQL error: %s\n", zErrMsg);
-            sqlite3_free(zErrMsg);
-        }      
-    }
+    int rc = sqlite3_exec(fdb, sql.c_str(), Callback, 0, &zErrMsg);
+
+    if( rc != SQLITE_OK ){
+        fprintf(stderr, "SQL error: %s\n", zErrMsg);
+        sqlite3_free(zErrMsg);
+    }      
+
 }
 
 

@@ -224,7 +224,12 @@ Window::Window()
   m_TreeViewColumn.set_sort_column(m_Columns.m_col_id);
   m_TreeView.append_column(m_TreeViewColumn);
 
-  m_TreeView.append_column("Name", m_Columns.m_col_name);
+
+  m_TreeViewColumn7.pack_start(m_TextRenderer, true);
+  m_TreeViewColumn7.set_title("Name");
+  m_TreeViewColumn7.add_attribute(m_TextRenderer, "text", m_Columns.m_col_name);
+  m_TreeViewColumn7.set_sort_column(m_Columns.m_col_name);
+  m_TreeView.append_column(m_TreeViewColumn7);
 
   m_TreeViewColumn1.pack_start(m_TextRenderer, true);
   m_TreeViewColumn1.set_title("Price");
@@ -295,9 +300,22 @@ void Window::SumbmitData(){
   std::string purchases = m_Purchases_Entry.get_text();
   std::string descryption = m_Descryption_Entry.get_text();
 
-  m_refTreeModel->clear();
-  Elements.AddElement(name, price, maxQuantity, sales,
+  bool errorMsg = Elements.AddElement(name, price, maxQuantity, sales,
                       purchases, descryption);
+  
+  if(!errorMsg){
+      m_pDialog.reset(new Gtk::MessageDialog(*this, "Adding error"));
+      m_pDialog->set_secondary_text(
+              "Check the form.");
+      m_pDialog->set_modal(true);
+      m_pDialog->set_hide_on_close(true);
+      m_pDialog->signal_response().connect(
+        sigc::hide(sigc::mem_fun(*m_pDialog, &Gtk::Widget::hide)));
+
+      m_pDialog->show();
+  }
+  
+  m_refTreeModel->clear();
   Search();
 }
 
@@ -314,7 +332,7 @@ void Window::RowSelected(){
     selectedRowId = row.get_value(m_Columns.m_col_id);
     m_Name2_Entry.set_text(row.get_value(m_Columns.m_col_name));
     m_MaxQuantity1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_max_quantity)));
-    m_Price1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_price)));    
+    m_Price1_Entry.set_text(row.get_value(m_Columns.m_col_price));    
     m_Sales1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_sales)));
     m_Purchases1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_purchases)));
     m_Descryption1_Entry.set_text(row.get_value(m_Columns.m_col_descryption));
@@ -339,9 +357,22 @@ void Window::UpdateData(){
     std::string purchases = m_Purchases1_Entry.get_text();
     std::string descryption = m_Descryption1_Entry.get_text();
 
+    bool errorMsg = Elements.UpdateElement(id, name, price, maxQuantity,
+                                          sales, purchases, descryption);
+
+    if(!errorMsg){
+      m_pDialog.reset(new Gtk::MessageDialog(*this, "Updating error"));
+      m_pDialog->set_secondary_text(
+              "Check the form.");
+      m_pDialog->set_modal(true);
+      m_pDialog->set_hide_on_close(true);
+      m_pDialog->signal_response().connect(
+        sigc::hide(sigc::mem_fun(*m_pDialog, &Gtk::Widget::hide)));
+
+      m_pDialog->show();
+    }
+    
     m_refTreeModel->clear();
-    Elements.UpdateElement(id, name, price, maxQuantity,
-                          sales, purchases, descryption);
     Search();
   }
 }

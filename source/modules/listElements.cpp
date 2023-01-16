@@ -20,7 +20,7 @@ void listElements::FillList(std::string text){
         auto row = *(m_refTreeModel->append());
         row[m_Columns.m_col_id] = std::stoi(a[0]);
         row[m_Columns.m_col_name] = a[1];
-        row[m_Columns.m_col_price] = std::stof(a[2]);
+        row[m_Columns.m_col_price] = a[2];
         row[m_Columns.m_col_max_quantity] = std::stoi(a[3]);
         row[m_Columns.m_col_quantity] = std::stoi(a[4]);
         row[m_Columns.m_col_sales] = std::stoi(a[5]);
@@ -29,42 +29,57 @@ void listElements::FillList(std::string text){
     }
 }
 
-void listElements::AddElement(std::string fname, std::string fprice,
+bool listElements::AddElement(std::string fname, std::string fprice,
                     std::string fmaxQuantity, std::string fsales,
                     std::string fpurchases, std::string fdescryption)
 {
-    std::string name = fname;
-    float price = std::stof(fprice);
-    int maxQuantity = std::stoi(fmaxQuantity);
-    int sales = std::stoi(fsales);
-    int purchaes = std::stoi(fpurchases);
-    int quantity = purchaes - sales;
-    std::string descryption = fdescryption;
+    try{
+        std::string name = fname;
+        float price = std::stof(fprice);
+        int maxQuantity = std::stoi(fmaxQuantity);
+        int sales = std::stoi(fsales);
+        int purchaes = std::stoi(fpurchases);
+        int quantity = purchaes - sales;
+        std::string descryption = fdescryption;
 
-    if((quantity) >= 0 && (quantity <= maxQuantity)){
-        database.Create();
-        database.Insert(name, price, maxQuantity, quantity, sales, purchaes, descryption);
-        database.Close();
+        if((quantity) >= 0 && (quantity <= maxQuantity)){
+            database.Create();
+            database.Insert(name, price, maxQuantity, quantity, sales, purchaes, descryption);
+            database.Close();
+        }else{
+            return false;
+        }
+        return true;
+    }catch(...){
+        return false;
     }
+
 }
 
-void listElements::UpdateElement(int fid, std::string fname, std::string fprice,
+bool listElements::UpdateElement(int fid, std::string fname, std::string fprice,
                     std::string fmaxQuantity, std::string fsales, 
                     std::string fpurchases, std::string fdescryption)
 {
-    int sales = std::stoi(fsales);
-    int purchaes = std::stoi(fpurchases);
-    int id = fid;
-    std::string name = fname;
-    float price = std::stof(fprice);
-    int maxQuantity = std::stoi(fmaxQuantity);
-    int quantity = purchaes - sales; //throw exception if sales < purchases
-    std::string descryption = fdescryption;
+    try{
+        int sales = std::stoi(fsales);
+        int purchaes = std::stoi(fpurchases);
+        int id = fid;
+        std::string name = fname;
+        float price = std::stof(fprice);
+        int maxQuantity = std::stoi(fmaxQuantity);
+        int quantity = purchaes - sales; //throw exception if sales < purchases
+        std::string descryption = fdescryption;
 
-    if((quantity) >= 0 && (quantity <= maxQuantity)){
-        database.Create();
-        database.Update(id, name, price, maxQuantity, quantity, sales, purchaes, descryption);
-        database.Close();
+        if((quantity) >= 0 && (quantity <= maxQuantity)){
+            database.Create();
+            database.Update(id, name, price, maxQuantity, quantity, sales, purchaes, descryption);
+            database.Close();
+        }else{
+            return false;
+        }
+        return true;
+    }catch(...){
+        return false;
     }
 }
 
