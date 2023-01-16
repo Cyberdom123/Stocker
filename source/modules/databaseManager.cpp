@@ -204,6 +204,12 @@ void databaseManager::Delete(int id){
 
     sql = "DELETE from RESOURCES where ID="+std::to_string(id)+"; ";
 
+    int rc = sqlite3_exec(fdb, sql.c_str(), Callback, 0, &zErrMsg);
+
+    if( rc != SQLITE_OK ){
+        fprintf(stderr, "SQL error: %s\n", zErrMsg);
+        sqlite3_free(zErrMsg);
+    } 
 }
 
 void databaseManager::Close(){

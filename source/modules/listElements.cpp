@@ -67,3 +67,9 @@ void listElements::UpdateElement(int fid, std::string fname, std::string fprice,
         database.Close();
     }
 }
+
+void listElements::DeleteElement(int fid){
+    database.Create();
+    database.Delete(fid);
+    database.Close();
+}

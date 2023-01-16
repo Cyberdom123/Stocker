@@ -28,11 +28,11 @@ private:
 
 protected:
   //Signal handlers:
-  void on_button_quit();
   void Search();
   void SumbmitData();
   void RowSelected();
   void UpdateData();
+  void DeleteData();
 
 
   listElements Elements;
@@ -44,6 +44,7 @@ protected:
   Gtk::Box m_VBox2;
   Gtk::Box m_VBox3;
   Gtk::Grid m_Grid;
+  Gtk::Grid m_Grid1;
   Gtk::Notebook m_Notebook;
 
   Gtk::CellRendererText m_TextRenderer;
@@ -82,9 +83,6 @@ protected:
   Gtk::Label m_Purchases1_Label;
   Gtk::Label m_Descryption1_Label;
 
-  Gtk::Box m_ButtonBox_Quit;
-  Gtk::Button m_Button_Quit;
-
 //-------Add box-------
   Gtk::Box m_ButtonBox_Submit;
   Gtk::Button m_Button_Submit;
@@ -92,6 +90,8 @@ protected:
 //-------Update box-------
   Gtk::Box m_ButtonBox_Submit1;
   Gtk::Button m_Button_Submit1;
+  Gtk::Box m_ButtonBox_Delete;
+  Gtk::Button m_Button_Delete;
 
   Gtk::Entry m_Name_Entry;
 
@@ -112,4 +112,5 @@ protected:
   Gtk::Entry m_Sales1_Entry;
   Gtk::Entry m_Purchases1_Entry;
   Gtk::Entry m_Descryption1_Entry;
+  Gtk::TextView m_TextView;
 };

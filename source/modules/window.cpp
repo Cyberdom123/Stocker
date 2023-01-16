@@ -6,8 +6,9 @@ Window::Window()
   m_VBox1(Gtk::Orientation::VERTICAL),
   m_VBox2(Gtk::Orientation::VERTICAL),
   m_VBox3(Gtk::Orientation::VERTICAL),
-  m_Button_Submit("Submit"),
-  m_Button_Submit1("Submit")
+  m_Button_Submit("Add"),
+  m_Button_Submit1("Update"),
+  m_Button_Delete("Delete")
 {
   set_title("Stocker");
   set_default_size(1000, 500);
@@ -22,6 +23,8 @@ Window::Window()
 
   m_Grid.set_margin(5);
   set_child(m_Grid);
+
+  m_Grid1.set_margin(5);
 
   m_Notebook.set_margin(5);
 
@@ -44,6 +47,11 @@ Window::Window()
   m_Descryption1_Entry.set_margin(5);
   m_Descryption1_Entry.set_size_request(-1,100);
 
+  auto m_refTextBuffer = Gtk::TextBuffer::create();
+  m_TextView.set_buffer(m_refTextBuffer);
+  m_TextView.set_size_request(20,100);
+  m_TextView.set_margin(10);
+  
   //Add the TreeView, inside a ScrolledWindow, with the button underneath:
   m_ScrolledWindow.set_child(m_TreeView);
 
@@ -95,8 +103,9 @@ Window::Window()
 
   m_VBox3.append(m_Descryption1_Label);
   m_VBox3.append(m_Descryption1_Entry);
+  //m_VBox3.append(m_TextView);
 
-  m_VBox3.append(m_Button_Submit1);
+  m_VBox3.append(m_Grid1);
 
 
   //Make two Vboxes next to each other
@@ -136,6 +145,9 @@ Window::Window()
   m_Descryption_Label.set_text("Descryption:");
   m_Descryption_Label.set_margin_start(5);  
   m_Descryption_Label.set_xalign(0);
+
+  m_Grid1.attach(m_Button_Submit1, 0, 0);
+  m_Grid1.attach(m_Button_Delete, 1, 0);
 
 //-------------------------------------------------
 
@@ -181,6 +193,14 @@ Window::Window()
   m_Button_Submit1.set_halign(Gtk::Align::CENTER);
   m_Button_Submit1.signal_clicked().connect(
                   sigc::mem_fun(*this, &Window::UpdateData));
+                  //use to add item
+                  
+  m_ButtonBox_Delete.set_margin(5);
+  m_Button_Delete.set_margin_bottom(5);
+  m_Button_Delete.set_hexpand(true);
+  m_Button_Delete.set_halign(Gtk::Align::CENTER);
+  m_Button_Delete.signal_clicked().connect(
+                  sigc::mem_fun(*this, &Window::DeleteData));
                   //use to add item
 
   m_Notebook.append_page(m_VBox3, "Update");
@@ -251,10 +271,6 @@ Window::Window()
 
 Window::~Window(){}
 
-void Window::on_button_quit()
-{
-  hide();
-}
 
 void Window::Search(){
   m_id = selectedRowId;
@@ -279,7 +295,6 @@ void Window::SumbmitData(){
   std::string purchases = m_Purchases_Entry.get_text();
   std::string descryption = m_Descryption_Entry.get_text();
 
-  std::cout << name << '\n';
   m_refTreeModel->clear();
   Elements.AddElement(name, price, maxQuantity, sales,
                       purchases, descryption);
@@ -295,7 +310,6 @@ void Window::RowSelected(){
 
   if(countSelected != 0){ 
     Gtk::TreeModel::Row row = *iter;
-    std::cout << row.get_value(m_Columns.m_col_id) << std::endl;
   
     selectedRowId = row.get_value(m_Columns.m_col_id);
     m_Name2_Entry.set_text(row.get_value(m_Columns.m_col_name));
@@ -330,4 +344,11 @@ void Window::UpdateData(){
                           sales, purchases, descryption);
     Search();
   }
+}
+
+void Window::DeleteData(){
+  std::cout << selectedRowId << '\n';
+  Elements.DeleteElement(selectedRowId);
+  m_refTreeModel->clear();
+  Search();
 }

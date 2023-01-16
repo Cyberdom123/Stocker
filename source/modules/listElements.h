@@ -19,6 +19,8 @@ class listElements{
                     std::string fpurchases, std::string fdescryption);
 
         void FillList(std::string text="");
+
+        void DeleteElement(int fid);
     private:
         ModelColumns m_Columns;
         databaseManager database;
