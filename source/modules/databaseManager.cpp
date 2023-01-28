@@ -32,7 +32,7 @@ int databaseManager::Create(){
             "QUANTITY       INT     NOT NULL,"\
             "SALES       INT,"\
             "PURCHASES       INT     NOT NULL,"\
-            "DESCRYPTION    TEXT);";
+            "DESCRIPTION    TEXT);";
 
     int rc = sqlite3_exec(fdb, sql, Callback, 0, &zErrMsg);
 
@@ -46,17 +46,17 @@ int databaseManager::Create(){
 
 //inssert 
 void databaseManager::Insert(std::string name, float price, int maxQuantity, int quantity,
-                             int sales, int purchases, std::string descryption){
+                             int sales, int purchases, std::string description){
     char *zErrMsg = 0;
 
     std::string sql;
 
     sql = "INSERT INTO RESOURCES (ID, NAME, PRICE, MAX_QUANTITY, QUANTITY,"\
-          "SALES, PURCHASES, DESCRYPTION) VALUES"\
+          "SALES, PURCHASES, DESCRIPTION) VALUES"\
           "(NULL,'"+name+"',"+ std::to_string(price)+","+\
           std::to_string(maxQuantity)+","+\
           std::to_string(quantity)+","+std::to_string(sales)+\
-          ","+std::to_string(purchases)+",'"+descryption+"');";
+          ","+std::to_string(purchases)+",'"+description+"');";
 
     int rc = sqlite3_exec(fdb, sql.c_str(), Callback, 0, &zErrMsg);
 
@@ -67,7 +67,7 @@ void databaseManager::Insert(std::string name, float price, int maxQuantity, int
 }
 
 void databaseManager::Update(int id, std::string name, float price, int maxQuantity, int quantity,
-                             int sales, int purchases, std::string descryption){
+                             int sales, int purchases, std::string description){
     char *zErrMsg = 0;
     
     std::string sql;
@@ -139,7 +139,7 @@ void databaseManager::Update(int id, std::string name, float price, int maxQuant
     }
 
 
-    sql = "UPDATE RESOURCES set DESCRYPTION ='" +descryption+ "' where ID="+std::to_string(id)+";";
+    sql = "UPDATE RESOURCES set DESCRIPTION ='" +description+ "' where ID="+std::to_string(id)+";";
 
     int rc = sqlite3_exec(fdb, sql.c_str(), Callback, 0, &zErrMsg);
 

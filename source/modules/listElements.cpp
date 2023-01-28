@@ -25,13 +25,13 @@ void listElements::FillList(std::string text){
         row[m_Columns.m_col_quantity] = std::stoi(a[4]);
         row[m_Columns.m_col_sales] = std::stoi(a[5]);
         row[m_Columns.m_col_purchases] = std::stoi(a[6]);
-        row[m_Columns.m_col_descryption] = a[7];
+        row[m_Columns.m_col_description] = a[7];
     }
 }
 
 bool listElements::AddElement(std::string fname, std::string fprice,
                     std::string fmaxQuantity, std::string fsales,
-                    std::string fpurchases, std::string fdescryption)
+                    std::string fpurchases, std::string fdescription)
 {
     try{
         std::string name = fname;
@@ -40,11 +40,11 @@ bool listElements::AddElement(std::string fname, std::string fprice,
         int sales = std::stoi(fsales);
         int purchaes = std::stoi(fpurchases);
         int quantity = purchaes - sales;
-        std::string descryption = fdescryption;
+        std::string description = fdescription;
 
         if((quantity) >= 0 && (quantity <= maxQuantity)){
             database.Create();
-            database.Insert(name, price, maxQuantity, quantity, sales, purchaes, descryption);
+            database.Insert(name, price, maxQuantity, quantity, sales, purchaes, description);
             database.Close();
         }else{
             return false;
@@ -58,7 +58,7 @@ bool listElements::AddElement(std::string fname, std::string fprice,
 
 bool listElements::UpdateElement(int fid, std::string fname, std::string fprice,
                     std::string fmaxQuantity, std::string fsales, 
-                    std::string fpurchases, std::string fdescryption)
+                    std::string fpurchases, std::string fdescription)
 {
     try{
         int sales = std::stoi(fsales);
@@ -68,11 +68,11 @@ bool listElements::UpdateElement(int fid, std::string fname, std::string fprice,
         float price = std::stof(fprice);
         int maxQuantity = std::stoi(fmaxQuantity);
         int quantity = purchaes - sales; //throw exception if sales < purchases
-        std::string descryption = fdescryption;
+        std::string description = fdescription;
 
         if((quantity) >= 0 && (quantity <= maxQuantity)){
             database.Create();
-            database.Update(id, name, price, maxQuantity, quantity, sales, purchaes, descryption);
+            database.Update(id, name, price, maxQuantity, quantity, sales, purchaes, description);
             database.Close();
         }else{
             return false;

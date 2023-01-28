@@ -12,11 +12,11 @@ class listElements{
         Glib::RefPtr<Gtk::ListStore> GetListElements() const;
         bool AddElement(std::string fname, std::string fprice,
                     std::string fmaxQuantity, std::string fsales, 
-                    std::string fpurchases, std::string fdescryption);
+                    std::string fpurchases, std::string fdescription);
 
         bool UpdateElement(int fid, std::string fname, std::string fprice,
                     std::string fmaxQuantity, std::string fsales, 
-                    std::string fpurchases, std::string fdescryption);
+                    std::string fpurchases, std::string fdescription);
 
         void FillList(std::string text="");
 

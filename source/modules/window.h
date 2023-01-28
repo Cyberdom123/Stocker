@@ -24,7 +24,7 @@ private:
   std::string m_price;    
   std::string m_sales;
   std::string m_purchases;
-  std::string m_descryption;
+  std::string m_description;
 
 protected:
   //Signal handlers:
@@ -74,7 +74,7 @@ protected:
   Gtk::Label m_Quantity_Label;
   Gtk::Label m_Sales_Label;
   Gtk::Label m_Purchases_Label;
-  Gtk::Label m_Descryption_Label;
+  Gtk::Label m_Description_Label;
 
 //-------Update box-------
   Gtk::Label m_Name2_Label;
@@ -83,7 +83,7 @@ protected:
   Gtk::Label m_Quantity1_Label;
   Gtk::Label m_Sales1_Label;
   Gtk::Label m_Purchases1_Label;
-  Gtk::Label m_Descryption1_Label;
+  Gtk::Label m_Description1_Label;
 
 //-------Add box-------
   Gtk::Box m_ButtonBox_Submit;
@@ -104,7 +104,7 @@ protected:
   Gtk::Entry m_Quantity_Entry;
   Gtk::Entry m_Sales_Entry;
   Gtk::Entry m_Purchases_Entry;
-  Gtk::Entry m_Descryption_Entry;
+  Gtk::Entry m_Description_Entry;
 
 //-------Update box-------
   Gtk::Entry m_Name2_Entry;
@@ -113,6 +113,6 @@ protected:
   Gtk::Entry m_Quantity1_Entry;
   Gtk::Entry m_Sales1_Entry;
   Gtk::Entry m_Purchases1_Entry;
-  Gtk::Entry m_Descryption1_Entry;
+  Gtk::Entry m_Description1_Entry;
   Gtk::TextView m_TextView;
 };

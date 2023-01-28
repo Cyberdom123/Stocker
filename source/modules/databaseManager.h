@@ -18,9 +18,9 @@ class databaseManager{
     public:
         int Create(); 
         void Insert(std::string name, float price, int maxQuantity, int quantity,
-                    int sales, int purchases, std::string descryption = "");
+                    int sales, int purchases, std::string description = "");
         void Update(int id, std::string name = "", float price=0, int maxQuantity = 0, int quantity=-1,
-                    int sales=-1, int purchases=-1, std::string descryption = "");
+                    int sales=-1, int purchases=-1, std::string description = "");
         void ReadAll();
         void Read(int id);
         dataFrame Search(std::string text);

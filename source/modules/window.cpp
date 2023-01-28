@@ -41,11 +41,11 @@ Window::Window()
   m_Sales1_Entry.set_margin(5);
   m_Purchases1_Entry.set_margin(5);
   
-  m_Descryption_Entry.set_margin(5);
-  m_Descryption_Entry.set_size_request(-1,100);
+  m_Description_Entry.set_margin(5);
+  m_Description_Entry.set_size_request(-1,100);
   
-  m_Descryption1_Entry.set_margin(5);
-  m_Descryption1_Entry.set_size_request(-1,100);
+  m_Description1_Entry.set_margin(5);
+  m_Description1_Entry.set_size_request(-1,100);
 
   auto m_refTextBuffer = Gtk::TextBuffer::create();
   m_TextView.set_buffer(m_refTextBuffer);
@@ -81,8 +81,8 @@ Window::Window()
   m_VBox2.append(m_Purchases_Label);
   m_VBox2.append(m_Purchases_Entry);
 
-  m_VBox2.append(m_Descryption_Label);
-  m_VBox2.append(m_Descryption_Entry);
+  m_VBox2.append(m_Description_Label);
+  m_VBox2.append(m_Description_Entry);
 
   m_VBox2.append(m_Button_Submit);
 
@@ -101,8 +101,8 @@ Window::Window()
   m_VBox3.append(m_Purchases1_Label);
   m_VBox3.append(m_Purchases1_Entry);
 
-  m_VBox3.append(m_Descryption1_Label);
-  m_VBox3.append(m_Descryption1_Entry);
+  m_VBox3.append(m_Description1_Label);
+  m_VBox3.append(m_Description1_Entry);
   //m_VBox3.append(m_TextView);
 
   m_VBox3.append(m_Grid1);
@@ -142,9 +142,9 @@ Window::Window()
   m_Purchases_Label.set_margin_start(5);
   m_Purchases_Label.set_xalign(0);
   
-  m_Descryption_Label.set_text("Descryption:");
-  m_Descryption_Label.set_margin_start(5);  
-  m_Descryption_Label.set_xalign(0);
+  m_Description_Label.set_text("Description:");
+  m_Description_Label.set_margin_start(5);  
+  m_Description_Label.set_xalign(0);
 
   m_Grid1.attach(m_Button_Submit1, 0, 0);
   m_Grid1.attach(m_Button_Delete, 1, 0);
@@ -175,9 +175,9 @@ Window::Window()
   m_Purchases1_Label.set_margin_start(5);
   m_Purchases1_Label.set_xalign(0);
   
-  m_Descryption1_Label.set_text("Descryption:");
-  m_Descryption1_Label.set_margin_start(5);  
-  m_Descryption1_Label.set_xalign(0);
+  m_Description1_Label.set_text("Description:");
+  m_Description1_Label.set_margin_start(5);  
+  m_Description1_Label.set_xalign(0);
 
   m_ButtonBox_Submit.set_margin(5);
   m_Button_Submit.set_margin_bottom(5);
@@ -262,9 +262,9 @@ Window::Window()
   m_TreeView.append_column(m_TreeViewColumn5);
 
   m_TreeViewColumn6.pack_start(m_TextRenderer1, true);
-  m_TreeViewColumn6.set_title("Descryption");
-  m_TreeViewColumn6.add_attribute(m_TextRenderer1, "text", m_Columns.m_col_descryption);
-  m_TreeViewColumn6.set_sort_column(m_Columns.m_col_descryption);
+  m_TreeViewColumn6.set_title("Description");
+  m_TreeViewColumn6.add_attribute(m_TextRenderer1, "text", m_Columns.m_col_description);
+  m_TreeViewColumn6.set_sort_column(m_Columns.m_col_description);
   m_TreeViewColumn6.set_alignment(1.0);
   m_TreeViewColumn6.set_max_width(50);
   m_TreeView.append_column(m_TreeViewColumn6);
@@ -284,7 +284,7 @@ void Window::Search(){
   m_price = m_Price1_Entry.get_text();    
   m_sales = m_Sales1_Entry.get_text();
   m_purchases = m_Purchases1_Entry.get_text();
-  m_descryption = m_Descryption1_Entry.get_text();
+  m_description = m_Description1_Entry.get_text();
 
   std::string text = m_Name_Entry.get_text();
   m_refTreeModel->clear();
@@ -298,10 +298,10 @@ void Window::SumbmitData(){
   std::string maxQuantity = m_MaxQuantity_Entry.get_text();
   std::string sales = m_Sales_Entry.get_text();
   std::string purchases = m_Purchases_Entry.get_text();
-  std::string descryption = m_Descryption_Entry.get_text();
+  std::string description = m_Description_Entry.get_text();
 
   bool errorMsg = Elements.AddElement(name, price, maxQuantity, sales,
-                      purchases, descryption);
+                      purchases, description);
   
   if(!errorMsg){
       m_pDialog.reset(new Gtk::MessageDialog(*this, "Adding error"));
@@ -335,7 +335,7 @@ void Window::RowSelected(){
     m_Price1_Entry.set_text(row.get_value(m_Columns.m_col_price));    
     m_Sales1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_sales)));
     m_Purchases1_Entry.set_text(std::to_string(row.get_value(m_Columns.m_col_purchases)));
-    m_Descryption1_Entry.set_text(row.get_value(m_Columns.m_col_descryption));
+    m_Description1_Entry.set_text(row.get_value(m_Columns.m_col_description));
   }else{//if nothig is displayed on list, set last selected
     selectedRowId = m_id;
     m_Name2_Entry.set_text(m_name);
@@ -343,7 +343,7 @@ void Window::RowSelected(){
     m_Price1_Entry.set_text(m_price);    
     m_Sales1_Entry.set_text(m_sales);
     m_Purchases1_Entry.set_text(m_purchases);
-    m_Descryption1_Entry.set_text(m_descryption);
+    m_Description1_Entry.set_text(m_description);
   }
 }
 
@@ -355,10 +355,10 @@ void Window::UpdateData(){
     std::string price = m_Price1_Entry.get_text();    
     std::string sales = m_Sales1_Entry.get_text();
     std::string purchases = m_Purchases1_Entry.get_text();
-    std::string descryption = m_Descryption1_Entry.get_text();
+    std::string description = m_Description1_Entry.get_text();
 
     bool errorMsg = Elements.UpdateElement(id, name, price, maxQuantity,
-                                          sales, purchases, descryption);
+                                          sales, purchases, description);
 
     if(!errorMsg){
       m_pDialog.reset(new Gtk::MessageDialog(*this, "Updating error"));
